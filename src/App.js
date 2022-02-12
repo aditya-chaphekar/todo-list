@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import TaskList from "./components/TaskList/TaskList";
+import TopSection from "./components/TopSection/TopSection";
 
 function App() {
+  const [tasks, setTasks] = useState(["Task 1", "Task 2", "Task 3"]);
+
+  const addTask = (task) => {
+    setTasks([...tasks, task]);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-wrapper">
+      <div className="app-center-box">
+        {/* Top Section */}
+        <TopSection submitHandler={addTask} />
+        {/* List */}
+        <TaskList
+          TaskList={tasks}
+          deleteTask={(taskToDelete) => {
+            const index = tasks.indexOf(taskToDelete);
+            setTasks(tasks.filter((task, i) => i !== index));
+          }}
+        />
+      </div>
     </div>
   );
 }
